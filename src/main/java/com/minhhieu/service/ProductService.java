@@ -14,6 +14,8 @@ import java.util.List;
 public interface ProductService {
     List<Product> getProducts(String kw, int page);
     Long countProduct();
+    List<Object[]> getHotProducts(int num);
+    List<Object[]> getMostDiscussProducts(int num);
     boolean addOrUpdate(Product product);
     Product getProductById(int id);
 }

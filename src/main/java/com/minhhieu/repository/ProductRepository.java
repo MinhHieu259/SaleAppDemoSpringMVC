@@ -13,6 +13,8 @@ import java.util.List;
  */
 public interface ProductRepository {
     List<Product> getProducts(String kw, int page);
+    List<Object[]> getHotProducts(int num);
+    List<Object[]> getMostDiscussProducts(int num);
     Product getProductById(int id);
     long countProduct();
     boolean addOrUpdate(Product product);

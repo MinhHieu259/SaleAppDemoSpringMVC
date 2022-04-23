@@ -55,4 +55,14 @@ public class ProductServiceImpl implements ProductService {
         return this.productRepository.getProductById(id);
     }
 
+    @Override
+    public List<Object[]> getHotProducts(int num) {
+        return this.productRepository.getHotProducts(num);
+    }
+
+    @Override
+    public List<Object[]> getMostDiscussProducts(int num) {
+        return this.productRepository.getMostDiscussProducts(num);
+    }
+
 }

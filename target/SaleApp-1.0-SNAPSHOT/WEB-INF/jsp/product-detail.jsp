@@ -30,22 +30,34 @@
 <br><br>
 <form>
     <div class="form-group">
-        <textarea class="form-control" placeholder="Nhap danh gia..."></textarea>
+        <textarea id="commentId" class="form-control" placeholder="Nhap danh gia..."></textarea>
         <br>
-        <input type="submit" value="Gui binh luan" class="btn btn-danger"/>
+        <input onclick="addComment(${product.id})" type="button" value="Gui binh luan" class="btn btn-danger"/>
     </div>
 </form>
 
-<c:forEach var="comment" items="${product.commentCollection}">
-<div class="row">
-    <div class="col-md-2" style="padding: 10px">
-        <img class="rounded-circle img-fluid" src="<c:url value="/images/anh1.jpg"/>"/>
-    </div>
-    <div class="col-md-10">
-        <p>${comment.content}</p>
-        <i>22/04/2022 22:22</i>
-    </div>
+<div id="commentArea">
+    <c:forEach var="comment" items="${product.commentCollection}">
+        <div class="row">
+            <div class="col-md-2" style="padding: 10px">
+                <img class="rounded-circle img-fluid" src="${comment.userId.avatar}"/>
+            </div>
+            <div class="col-md-10 my-date">
+                <p>${comment.content}</p>
+                <i>${comment.createdDate}</i>
+            </div>
+        </div>    
+    </c:forEach>
 </div>
-        
-</c:forEach>
+
+
+<script>
+    window.onload = function () {
+        let dates = document.querySelectorAll(".my-date > i")
+        for (let i = 0; i < dates.length; i++) {
+            let d = dates[i]
+            d.innerText = moment(d.innerText).fromNow()
+        }
+    }
+</script>
 

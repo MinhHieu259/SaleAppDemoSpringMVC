@@ -4,10 +4,13 @@
  */
 package com.minhhieu.controller;
 
+import com.minhhieu.pojos.Cart;
 import com.minhhieu.pojos.Category;
 import com.minhhieu.service.CategoryService;
 import com.minhhieu.service.ProductService;
+import com.minhhieu.utils.Utils;
 import java.util.Map;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,12 +33,15 @@ public class HomeController {
     @Autowired
     private ProductService productService;
     @ModelAttribute
-    public void commonAttrs(Model model){
+    public void commonAttrs(Model model, HttpSession session){
         model.addAttribute("categories", this.categoryService.getCategories());
+        model.addAttribute("cartCounter", Utils.countCart((Map<Integer, Cart>) session.getAttribute("cart")));
+        model.addAttribute("currentUser", session.getAttribute("currentUser"));
     }
     
     @GetMapping("/")
-    public String index(Model model, @RequestParam(required = false) Map<String, String> params){
+    public String index(Model model, @RequestParam(required = false) Map<String, String> params,
+            HttpSession session){
         String kw = params.getOrDefault("kw", null);
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         String cateId = params.get("CateId");
@@ -47,6 +53,9 @@ public class HomeController {
         }
         
         model.addAttribute("productCounter", this.productService.countProduct());
+        model.addAttribute("hotProducts", this.productService.getHotProducts(6));
+        model.addAttribute("mostProducts", this.productService.getMostDiscussProducts(6));
+        model.addAttribute("currentUser", session.getAttribute("currentUser"));
         return "index";
     }
 }
